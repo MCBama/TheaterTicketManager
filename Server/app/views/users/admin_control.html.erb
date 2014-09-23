@@ -1,0 +1,42 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-6">
+              Organizations
+            </div>
+            <div class="col-md-6 heading-btn">
+              <%= link_to "New Organization", organizations_path, class: "btn btn-default" %>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <th width="70%">Name</th>
+            <th width="30%">Options</th>
+          </thead>
+          <tbody>
+            <% @organization_list.each do |organization| %>
+              <tr>
+                <td><%= organization.name %></td>
+                <td>
+                  <%= link_to "", edit_organization_path(organization), class:"btn glyphicon glyphicon-edit" %>
+                  <%= link_to "", organization_path(organization,call_location: "admin_control"), method: :delete, 
+                      class: "btn glyphicon glyphicon-trash", data: { confirm: "Are you sure you want to delete this organization?"} %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-offset-7 col-md-2">
+      <div class="btn-group-vertical">
+        <%= link_to "Change username/password", edit_user_path(@current_user, call_location: "admin_control"), class: "btn btn-default" %>
+        <%= link_to "View User List", users_path(), class: "btn btn-default" %>
+      </div>
+    </div>
+  </div>
+</div>

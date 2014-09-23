@@ -1,0 +1,115 @@
+@import "bootstrap";
+
+#header {
+  background:#428bca;
+	position: center;
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 1px;
+}
+
+.navbar{
+  border-radius:0px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 1px solid #428bca;
+}
+body { 
+	background: url(https://googledrive.com/host/0B8IHhWse7Du0TnB1b2FNbzQ1ek0/bright_squares.png); 
+	background-attachment: scroll;
+	background-position: center;
+}
+
+.navbar-header-icon {
+	background: url(https://googledrive.com/host/0B8IHhWse7Du0TnB1b2FNbzQ1ek0/icon.png);
+	background-attachment: inherit;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 35px;
+}
+
+.table {
+  .btn{
+    padding:0px;
+  }
+  .glyphicon-remove{
+    color:red;
+    padding-left:0px;
+  }
+}
+  
+
+.panel>.panel-heading
+{
+  .btn{
+    margin-top:-5px;
+    margin-bottom:-5px;
+  }
+  .heading-btn{
+    text-align:right;
+    padding:0px;
+  }
+}
+
+.list-group-item
+{
+  .btn{
+    margin-top:-5px;
+    margin-bottom:-5px;
+  }
+}
+
+.row{
+  margin-right:0px;
+}
+
+.navbar {
+  width:auto;
+}
+
+.glyphicon-trash {
+  color:red;
+  padding:0px;
+}
+
+.glyphicon-edit{
+  padding:0px;
+}
+
+.glyphicon-cart{
+  padding:0px;
+}
+
+.glyphicon-remove{
+  color:red;
+  padding:0px;
+}
+
+.glyphicon-cog{
+  padding:0px;
+}
+
+.text-header {
+  font-size:350%;
+  text-align:center; 
+  color:#ffffff;
+}
+
+.cheaty-color:hover {
+  background-color:#dddddd;
+}
+
+
+.page-header {
+  font-size:250%; 
+  color: #ffffff;
+  background-color: #428bca; 
+  vertical-align:bottom;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  border-bottom: none;
+  margin-top: 0px;
+  padding-left: 5px;
+}

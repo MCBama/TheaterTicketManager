@@ -1,0 +1,33 @@
+<%= form_for :account, url: accounts_path do |f| %>
+  <%= hidden_field_tag "user_id", params[:user_id] %>
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Payment Information
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-4" style="text-align:right">
+                <b>Name:</b>
+              </div>
+              <div class="col-md-6">
+                <%= f.text_field :name %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4" style="text-align:right">
+                <b>Credit Card:</b>
+              </div>
+              <div class="col-md-6">
+                <%= f.text_field :encrypted_credit_card %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= f.submit %>
+  </div>
+<% end %>

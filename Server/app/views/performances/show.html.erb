@@ -1,0 +1,18 @@
+<%= include_gon %>
+<%= javascript_include_tag "appletListeners.js" %>
+<%= javascript_include_tag "subnav.js" %>
+<%= stylesheet_link_tag "subnav", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "tickets" %>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-6", style="text-align:left">
+      <%= @production.title %> <%= @performance.performance_start_date %>
+    </div>
+    <div class="col-md-6", style="text-align:right">
+      Seats Available: <%= @seat_list.count %>, Seats Reserved: <%= @reserved_seat_list.count %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "transactions/venue_map" %>

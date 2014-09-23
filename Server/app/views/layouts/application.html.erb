@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TicketManager</title>
+  <%= stylesheet_link_tag "generic", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag params[:controller], media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag params[:controller], "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+<div id="header">
+	<%= render "layouts/header" %>
+</div> 
+
+<div class="row">
+<div class="col-md-12" style="padding-right:0px">
+	<nav class="navbar navbar-default">
+		<div class="navbar-header navbar-header-icon" style="min-width:50px;min-height:50px;">
+			
+		</div>
+		<div class="nav navbar-nav" >
+			<li class="<%= params[:controller]=="welcome" ? "active" :"" %>">
+				<%= link_to "Home", controller: "welcome" %>
+			</li>
+			<li class="<%= params[:controller]=="productions" ? "active" :"" %>">
+				<%= link_to "Productions", controller: "productions" %>
+			</li>
+			<li class="<%= params[:controller]=="organizations" ? "active" :"" %>">
+				<%= link_to "Organizations", organizations_path %>
+			</li>
+      <li class="<%= (params[:controller]=='transactions' && params[:action]!= 'list') ? "active" :"" %>">
+				<%= link_to "Purchase Tickets", new_transaction_path(), :class=> "navbtn" %>
+			</li>
+      <% if @current_user && @current_user.teller?(@current_user.organization) %>
+        <li class="<%= (params[:controller]=='transactions' && params[:action]== 'list') ? "active" :"" %>">
+          <%= link_to "Customer Payment", list_transactions_path(organization_id: @current_user.organization.id), class: "navbtn" %>
+        </li>
+        <li>
+          <%= link_to "Supervisor Override", override_supervisors_path(organization_id: @current_user.organization.id), class: "navbtn" %>
+        </li>
+      <% end %>
+		</div>
+    <div class="nav navbar-nav navbar-right" style="margin-right:10px">
+      <% if @current_user.nil? or @current_user.username == "generic" %>
+        <li> <%= link_to "Sign up", new_user_path()%> </li>
+        <li> <%= link_to "Login", sessions_login_path()%> </li>
+      <% else %>
+      <li><a style="padding-right: 0px; font-size: 10px;">Logged in as: <%= @current_user.username %></a></li>
+        <% unless @current_user.administrator? %>
+          <% unless @current_user.administrator?(@current_user.organization) %>
+            <% unless @current_user.teller?(@current_user.organization) %>
+              <li> <%= link_to "My Account", user_path(@current_user) %></li>
+             <% else %>
+              <li><%= link_to "Edit Teller Account", edit_user_path(@current_user, call_location: "teller") %></li>
+             <% end %>
+          <% else %>            
+            <li> <%= link_to "Admin Account", edit_organization_path(@current_user.organization) %> </li>
+          <% end %>
+        <% else %>
+          <li> <%= link_to "Admin Page", admin_control_path %> </li>
+        <% end %>
+        <li> <%= link_to "Logout", sessions_logout_path()%> </li>
+      <% end %>
+    </div>
+    
+  </nav>
+</div>
+</div>
+<% if flash.count != 0 %>
+  <div class="row ">
+    <div class="col-md-11" style="padding-left:50px">
+    <% flash.each do |k,v| %>
+      <div class="<%= flash_class(k) %>">
+        <%=v %>
+      </div>
+      <% flash.delete(k)%>
+    <% end %>
+    </div>
+  </div>
+<% end %>
+<%= yield %>	
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,205 @@
+<%= form_for(:organization, url: organization_path(@organization), action:"update", method: "put") do |f| %>
+<div class="well well-sm">
+<div class="row">
+  <div class="col-md-2">
+    <h4>Name:</h4>
+    <div class="row">
+      <div class="col-md-2">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    <br>
+  </div>
+  
+  <div class="col-md-10">
+    <ul class="pagination">
+      <li><%= link_to "Season Tickets", season_tickets_path(organization_id: @organization.id) %></li>
+      <li><%= link_to "Ticket Purchases", list_transactions_path(organization_id: @organization.id) %></li>
+    </ul>
+  </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-4">
+       <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-7">
+                  Current Productions
+                </div>
+                <% if @organization.current_season %>
+                  <div class="col-md-5 heading-btn">
+                    <%= link_to "New Production", new_production_path(organization_id: @organization.id), :class=> "btn btn-default" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="panel-table">
+              <table style="width:90%;margin-left:5%">
+                <thead>
+                  <th>Title</th>
+                  <th style="text-align:right">Options</th>
+                </thead>
+              </table>
+              <% if @organization.current_season %>  
+                <% @organization.current_season.productions.all.each do |production| %>
+                <div class="row">
+                  <div class="col-md-10" style="width:100%;padding:0px;margin-top:-1px">
+                    <%= link_to production.title, production_path(production), :class => "list-group-item", style: "width:100%" %>
+                  </div>
+                  <div class="col-md-2" style="position:absolute;margin-left:83%">
+                    <%= link_to "", edit_production_path(production), class: "btn glyphicon glyphicon-edit", style: "margin-top:10px;" %>
+                    <%= link_to "", production_path(production), method:"delete", class: "btn glyphicon glyphicon-trash", style: "margin-top:10px;", data: { confirm: "Are you sure? You'll need to refund any tickets manually." } %>
+                  </div>
+                </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Set Default Production Prices
+            </div>
+            <table class="table">
+              <thead>
+                <th>Type</th>
+                <th>Price</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Adult:</td>
+                  <td>$<%=f.text_field :default_adult, style: "width:50px", value: @organization.formatted_price("adult") %></td>
+                </tr>
+                <tr>
+                  <td>Child:</td>
+                  <td>$<%=f.text_field :default_child, style: "width:50px", value: @organization.formatted_price("child")%></td>
+                </tr>
+                <tr>
+                  <td>Military:</td>
+                  <td>$<%=f.text_field :default_military, style: "width:50px", value: @organization.formatted_price("military") %></td>
+                </tr>
+                <tr>
+                  <td>Season Ticket:</td>
+                  <td>$<%=f.text_field :default_season, style: "width:50px", value: formatted_price(@organization.default_season) %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-offset-1 col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-1">
+                  Supervisors
+                </div>
+                <div class="col-md-offset-6 heading-btn">
+                  <%= link_to "New Supervisor", new_supervisor_path(organization_id: @organization.id), :class=>"btn btn-default" %>
+                </div>
+              </div>
+            </div>
+            
+            <div class="panel-table">
+              <table class="table">
+                <thead>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <% @supervisor_list.each do |supervisor| %>
+                  <tr>
+                    <td><%= supervisor.name %></td>
+                    <td><%= supervisor.code %></td>
+                    <td>
+                      <%= link_to "", edit_supervisor_path(supervisor, organization_id: @organization.id), class:"btn glyphicon glyphicon-edit" %>
+                      <%= link_to "", supervisor_path(supervisor, organization_id: @organization.id), method: :delete, class: "btn glyphicon glyphicon-trash", style:"color:red;padding-left:0px;" %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            
+          </div> 
+        </div>
+      </div>
+      
+      <br>
+    </div>
+    
+    <div class="row">
+      
+      <div class="col-md-7">
+        <div class="panel panel-info" style="border-color:#6C8CD5;">
+          <div class="panel-heading" style="color:white;background-color:#6C8CD5;border-color:#6C8CD5">
+            Basic Information
+          </div>
+          <%= f.text_area :information, rows: 10, style: "width:100%" %>
+        </div>
+      </div>
+      
+      <div class="col-md-offset-1 col-md-3">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-6" style="padding-right:0px;">
+                  Previous Seasons
+                </div>
+                <div class="col-md-6 heading-btn">
+                  <%= link_to "New Season", new_season_path(:organization_id => @organization.id), :class => "btn btn-default", :data => { :confirm => "Are you sure? This will end your current season and start a new one." } %>
+                </div>
+              </div>
+            </div>
+            
+            <div class="panel-table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Year of Season</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @organization.seasons.all.each do |season| %>
+                    <tr>
+                      <td>
+                        <%= link_to season.year.to_s, season_path(season) %>
+                        <% if season == @organization.current_season %>
+                          (Current)
+                        <% end %>
+                      </td>
+                      <% unless season == @organization.current_season %>
+                        <td>
+                          <%= link_to "Set as current", season_path(season.id, organization_id: @organization.id), method: "put", class: "btn btn-default" %>
+                          <%= link_to "", season_path(season, organization_id: @organization.id), method: :delete, class: "btn glyphicon glyphicon-trash", style:"color:red;", data: { confirm: "Are you sure you wish to delete this season?" }  %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
+  
+  <%= f.submit %>
+</div>
+
+<% end %>

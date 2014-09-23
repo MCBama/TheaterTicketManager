@@ -1,0 +1,26 @@
+<%= form_for :supervisor, url: supervisors_path do |f|%>
+<div class="well well-sm">
+<%= hidden_field_tag "organization_id", params[:organization_id] %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-2">
+          <b>Name:<b>
+        </div>
+        <div class="col-md-4" style="margin-left:-100px">
+          <%=f.text_field :name %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <b>Code Number:<b>
+        </div>
+        <div class="col-md-4" style="margin-left:-100px">
+          <%=f.text_field :code %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%=f.submit%>
+</div>
+<%end%>

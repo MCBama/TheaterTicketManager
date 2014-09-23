@@ -1,0 +1,105 @@
+<%= javascript_include_tag "datepicker", "data-turbolinks-track" => true %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('[data-behaviour~=datepicker]').datepicker({
+      autoclose: true,
+      todayHighlight: true
+    });
+  })
+</script>
+
+<%= form_for @performance do |f|%>
+<div class="well well-sm">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-md-3" style="text-align:right">
+            <b>Performance Name:</b> 
+          </div>
+          <div class="col-md-8">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3" style="text-align:right">
+           <b>Show Date:</b>
+          </div>
+          <div class="col-md-3">
+             <%= f.text_field :performance_start_date, value: datepicker_format(@performance.performance_start_date), "data-behaviour" => "datepicker" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3" style="text-align:right">
+            <b>Start Time: </b>
+          </div>
+          <div class="col-md-6">
+            <%= select_time(@performance.start_time, ampm: true, prefix: :start_time, step: 5) %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3" style="text-align:right">
+            <b>End Time: </b>
+          </div>
+          <div class="col-md-6">
+            <%= select_time(@performance.end_time, ampm: true, prefix: :end_time) %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <b> Description: </b>
+              </div>
+            </div>
+            <%= f.text_area :description %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-offset-3 col-md-3">
+        <div class="panel panel-primary" >
+          <div class="panel-heading">
+            Performance Price Point
+          </div>
+          <div style="max-height:300px;overflow:auto">
+            <table class="table">
+              <thead>
+                <th>Division</th>
+                <th>Price</th>
+              </thead>
+              <tbody>
+                    <%= f.fields_for :division_price_points do |g| %>
+                    <tr>
+                    <td><b><%=g.object.name %></b></td>
+                    <td>
+                      <table>
+                        <tr>
+                          <td style="text-align:right">Adult:</td>
+                          <td>$<%= g.text_field :adult_price, style: "width:50px", value: formatted_price(g.object.adult_price) %></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right">Child:</td>
+                          <td>$<%= g.text_field :child_price, style: "width:50px", value: formatted_price(g.object.child_price) %></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right">Military:</td>
+                          <td>$<%= g.text_field :military_price,  style: "width:50px", value: formatted_price(g.object.military_price) %></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col-md-2">
+      <%= f.submit class: "btn btn-primary"%>
+    </div>
+  </div>
+</div>
+
+<% end %>

@@ -1,0 +1,196 @@
+<%= include_gon %>
+<script type="text/javascript">
+
+  var ready;
+  $(document).on('click', '.org-selector', function(e) { 
+    clearOrganizations();
+    var check = document.getElementById("org_"+e.currentTarget.id+"_check");
+    check.style.visibility='visible';
+    setupProductionPanel(e.currentTarget.id)
+  });
+  
+  $(document).on('click', '.prod-selector', function(e) { 
+    clearProductions("prod-check");
+    var check = document.getElementById("prod_"+e.currentTarget.id+"_check");
+    check.style.visibility='visible';
+    setupPerformancePanel(e.currentTarget.id);
+  });
+  
+  $(document).on('click', '.perf-selector', function(e) { 
+    clearPerformances("perf-check");
+    var check = document.getElementById("perf_"+e.currentTarget.id+"_check");
+    check.style.visibility='visible';
+    var selected_performance = document.getElementById("selected_performance");
+    selected_performance.innerHTML = '<input type="hidden" name="performance_id" value="'+e.currentTarget.id+'"></input>';
+    var btn = document.getElementById("confirm-btn");
+    btn.disabled = false;
+  });
+  
+  function clearElements(className){
+    if (className!=null){
+      var element = document.getElementById(className);
+      if (element!=null){
+        element.style.visibility="hidden";
+      }
+      else{
+        elements = document.getElementsByClassName(className);
+        if (elements!=null)
+          for(var i=0;i<elements.length;i++)
+          {
+            elements[i].style.visibility="hidden";
+          }
+      }
+    }
+  };
+  
+  function clearOrganizations(){
+    clearProductions();
+    clearElements("org-check");
+    
+  };
+  
+  function clearProductions(className){
+  clearPerformances();
+    if (className == null){    
+      clearElements("prod-panel");
+      clearElements("prod-check");
+    }
+    else{
+      clearElements(className);
+      clearPerformances();
+    }
+  };
+  
+  function clearPerformances(className){
+    if(className==null){
+      clearElements("perf-panel");
+      clearElements("perf-check");
+    }
+    else{
+      clearElements(className);
+    }
+    var btn = document.getElementById("confirm-btn");
+    btn.disabled = true;
+  };
+  
+  function setupProductionPanel(org_id){
+    var organization = null;
+    for(var i=0;i<gon.organization_list.length;i++)
+    {
+      if(gon.organization_list[i].id == org_id)
+        organization = gon.organization_list[i];
+    }
+    var panel = document.getElementById("prod-panel-list");
+    var productions = new Array();
+    for(var i=0, count=0;i<gon.production_list.length;i++)
+    {
+      if (gon.production_list[i].organization_id == organization.id){
+        productions[count] = gon.production_list[i];
+        count++;
+      }
+    }
+    var htmlString = ''
+    for(var i=0; i<productions.length; i++)
+    {
+      htmlString+='<a type="button" id="'+productions[i].id+'" class="list-group-item prod-selector" value="'+productions[i].title+'">'+
+      productions[i].title+
+      '<span class="badge prod-check" style="visibility:hidden" id="prod_'+productions[i].id+'_check"><span class="glyphicon glyphicon-ok"></span></span>'+ 
+      '</a>';
+    }
+    document.getElementById("prod-panel").style.visibility="visible";
+    panel.innerHTML = '<div class="list-group">'+htmlString+'</div>';
+  };
+  
+  function setupPerformancePanel(prod_id){
+    var production = null;
+    for(var i=0;i<gon.production_list.length;i++)
+    {
+      if (gon.production_list[i].id == prod_id){
+        production = gon.production_list[i];
+        break;
+      }
+    }
+    
+    var panel = document.getElementById("perf-panel-list");
+    var performances = new Array();
+    for(var i=0, count=0; i<gon.performance_list.length;i++)
+    {
+      if(gon.performance_list[i].production_id == prod_id){
+        performances[count]= gon.performance_list[i];
+        count++;
+      }
+    }
+    
+    var htmlString = '';
+    for(var i=0;i<performances.length;i++)
+    {
+      gon.performance_id = performances[i].id;
+      htmlString+='<a type="button" id="'+performances[i].id+'" class="list-group-item perf-selector" value="'+performances[i].name+'">'+
+      performances[i].name+"<br> Date: "+performances[i].performance_start_date+
+      '<span class="badge perf-check" style="visibility:hidden" id="perf_'+performances[i].id+'_check"><span class="glyphicon glyphicon-ok"></span></span>'+ 
+      '</a>';
+    } 
+    document.getElementById("perf-panel").style.visibility="visible";
+    panel.innerHTML = '<div class="list-group">'+htmlString+'</div>';
+  };  
+  
+  
+  $(window).unload(function() {
+    var btn = document.getElementById("confirm-btn");
+    btn.disabled = true;
+  });
+  $(document).ready(ready);
+  $(document).on('page:load', ready);
+</script>
+
+        
+<div class="well well-sm">
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-primary" style="height:200px" id="org-panel">
+        <div class="panel-heading">
+          Step 1: Select an Organization
+        </div>
+        <div class="list-group">
+          <% @organization_list.each do |organization| %>
+          <a type="button" id="<%= organization.id %>" class="list-group-item org-selector" value="<%= organization.name %>">
+            <%= organization.name %>
+            <span class="badge org-check" style="visibility:hidden" id="org_<%= organization.id %>_check"><span class="glyphicon glyphicon-ok"></span></span>
+          </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="panel panel-primary" style="height:200px;visibility:hidden;" id="prod-panel">
+        <div class="panel-heading">
+          Step 2: Select Production
+        </div>
+        <div id="prod-panel-list">
+          <span class="badge prod-check" style="visibility:hidden"></span>
+        </div>
+      </div>
+    </div>
+    <%= form_for :transaction, url: transactions_path do |f|%>
+    <div class="col-md-4">
+      <div class="panel panel-primary" style="height:200px;visibility:hidden;" id="perf-panel">
+        <div class="panel-heading">
+          Step 3: Select Performance
+        </div>
+        <div id="perf-panel-list">
+        <span class="badge perf-check" style="visibility:hidden"></span>
+        </div>
+      </div>
+    </div>
+    <div id="selected_performance" type="hidden"></div>
+    <div class="row">
+      <div class="col-md-offset-10">
+        <%= f.submit "Purchase Ticket", class: "btn btn-primary", id: "confirm-btn", :disabled => true %>
+      </div>
+    </div>
+  <% end %> 
+  </div>
+</div>
+ 

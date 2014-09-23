@@ -1,0 +1,1 @@
+[2014-04-22 05:41:35 +0000] {"adultSeats"=>{"198"=>"adult", "199"=>"adult", "201"=>"adult", "202"=>"adult", "203"=>"adult"}, "childSeats"=>{"206"=>"child", "207"=>"child"}, "militarySeats"=>{"211"=>"military", "212"=>"military"}, "action"=>"purchase_seats", "controller"=>"transactions", "id"=>"4"}

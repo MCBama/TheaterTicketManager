@@ -1,0 +1,37 @@
+<%= form_for @supervisor do |f|%>
+<div class="well well-sm">
+  <%= params %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-6">
+              Supervisor Information For: <%= @supervisor.name %>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <th width="20%">Name</th>
+            <th width="20%">ID Number</th>
+            <th width="20%">Organization</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= f.text_field :name %></td>
+              <td><%= f.text_field :code %></td>
+              <td><%= @organization.name %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= hidden_field_tag "organization_id", @organization.id %>
+          <%= f.submit "Update Supervisor" %>
+        </div>
+      </div>
+    </div>
+</div>
+<% end %>

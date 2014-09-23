@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  performance_time: 2014-01-22 20:14:36
+  description: MyString
+
+two:
+  name: MyString
+  performance_time: 2014-01-22 20:14:36
+  description: MyString

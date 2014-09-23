@@ -1,0 +1,14 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Step 1: Choose an Organization
+        </div>
+        <% @organization_list.each do |organization| %>
+          <%= link_to organization.name, new_season_ticket_path(organization_id: organization.id, user_id: @user.id), class: "list-group-item" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

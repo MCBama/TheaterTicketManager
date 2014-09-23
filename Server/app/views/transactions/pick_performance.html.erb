@@ -1,0 +1,9 @@
+<%= form_for @transaction, url: swap_performances_transaction_path(@transaction), method: "get" do |f|%>
+
+<%= select_tag(:performance_id, options_for_select(@performance_options)) %>
+
+
+
+<%= f.submit %>
+
+<% end %>

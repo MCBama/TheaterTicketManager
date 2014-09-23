@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  $(document).on('click', '.payment_check', function(e){
+    var cardField = document.getElementById('transaction_encrypted_credit_card')
+    if(cardField.disabled){
+      cardField.disabled = false
+    }else {
+       cardField.disabled = true 
+    }
+  });
+    
+    $(window).unload(function() {
+      var cardField = document.getElementById('transaction_encrypted_credit_card')
+      var checkBox = document.getElementById('transaction_pay_at_door')
+      cardField.disabled = false;
+      checkBox.checked = false;
+  });
+  
+</script>
+
+<div class="well well-sm">
+  <%= form_for @transaction, url: transaction_update_information_path(@transaction), method: "put" do |f| %>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="row">
+        <div class="col-md-3" style="text-align:right">
+          <b>Name: </b>
+        </div>
+        <div class="col-md-6">
+          <%= f.text_field :customer_name, value: @customer_name %>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-3" style="text-align:right">
+          <b>Credit Card: </b>
+        </div>
+        <div class="col-md-9">
+          <%= f.text_field :encrypted_credit_card, value: @credit_card %> <%= f.check_box :pay_at_door, class: "payment_check", checked:false %> Pay At Door
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <%= f.submit "Continue", class:"submit" %>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-offset-1 col-md-3">
+    <%= form_tag new_ticket_path, method: "get" do %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Select Number and Type of Tickets     
+        </div>
+        <table class="table">
+          <tr>
+            <td width="10%"><b>Adults:</b></td><td><%= select_tag "adult_stock", options_for_select((0..20).step(1).to_a) %></td>
+          </tr>
+          <tr>
+            <td><b>Children:</b></td><td><%= select_tag "child_stock", options_for_select((0..20).step(1).to_a) %></td>
+          </tr>
+          <tr>
+            <td><b>Senior/Military:</b><td><%= select_tag "military_stock", options_for_select((0..20).step(1).to_a) %></td>
+          </tr>            
+        </table>
+        <%= hidden_field_tag "performance_id", params[:performance_id] %>
+        <%= hidden_field_tag "transaction_id", params[:transaction_id] %>
+        <%= submit_tag "Select Seats", class:"btn btn-primary", style: "margin:5px" %>
+      </div>
+    <% end %>
+  </div>
+</div>

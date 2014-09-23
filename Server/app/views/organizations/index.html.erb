@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="panel panel-primary">        
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						Organizations
+					</div>
+					<% if @current_user.administrator? %>
+						<div class="col-md-6 heading-btn">
+              <%= form_for :organization, url: organizations_path do |f| %>
+                <%= f.label :name %>
+                <%= f.text_field :name %>
+                <%= f.submit "Create Organization", :class=>"btn btn-defualt" %>
+              <% end %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<div class = "list-group">
+        <table class="table" style="margin-bottom:0px; vertical-align:center">
+          <thead>
+          </thead>
+					<tbody>
+						<% @organization_list.each do |org| %>
+            
+							<tr>
+								<td>
+                  <a href=<%= organization_path(org) %> class="list-group-item" ><b><%=org.name%></b>
+                    <br><%= org.information %></a>
+                </td>
+                <% if @current_user.administrator? %>  
+                <td width="7%" style="text-align:center; vertical-align:middle">
+                  <%= link_to "", edit_organization_path(org), class: "btn glyphicon glyphicon-edit"%>
+                  <%= link_to "", organization_path(org), class: "btn glyphicon glyphicon-trash", style:"color:red", method: :delete, data: { confirm: "Are you sure?" } %>
+                </td>
+                <% elsif @current_user.administrator?(org)%>
+                <td width="7%" style="text-align:center; vertical-align:middle">
+                  <%= link_to "", edit_organization_path(org), class: "btn glyphicon glyphicon-edit"%>
+                </td>
+                <% end %>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,62 @@
+<%= javascript_include_tag "datepicker", "data-turbolinks-track" => true %>
+
+<script type="text/javascript">
+  $(function(){
+    $('.datepicker').datepicker({
+        "setDate": new Date(),
+        "autoclose": true
+    });
+	$(".datepicker").datepicker('update', new Date());
+  });    
+</script>
+
+<div class="col-md-4">
+	<div class="well well-sm">
+	<%= form_for :performance, url: performances_path do |f| %>
+	  <%= hidden_field_tag "production_id", params[:production_id] %>
+    <p>
+		<%= f.label :name %><br>
+		<%= f.text_field :name %>
+	  </p>
+	  <p>
+		<div class="row">
+			<div class="col-md-3">
+				<%= f.label :start_date %>
+			</div>
+			<div class="col-md-5" style="margin-left:-20px">
+				 <%= f.text_field :start_date, :class => "datepicker" %>
+			</div>
+		</div>
+		<br>
+	  </p>
+	  <p>
+		<div class="row">
+			<div class="col-md-3">
+				<%= f.label :end_date %>
+			</div>
+			<div class="col-md-5" style ="margin-left:-20px">
+				<%= f.text_field :end_date, :class => "datepicker" %>
+			</div>
+		</div>
+	  </p>
+	  <p>
+		<%= f.label :performance_start_time %><br>
+		<%= select_time(Time.new.midnight, ampm: true, prefix: :start_time) %>
+	  </p>
+	  <p>
+		<%= f.label :performance_end_time %><br>
+		<%= select_time(Time.new.midnight, ampm: true, prefix: :end_time) %>
+	  </p>
+	  <p>
+		<%= f.label :description %><br>
+		<%= f.text_area :description %>
+	  </p>
+	 
+	 
+	  <p>
+		<%= f.submit %>
+	  </p>
+	<% end %>
+	</div>
+</div>
+

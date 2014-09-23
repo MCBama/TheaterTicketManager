@@ -1,0 +1,46 @@
+<%= include_gon %>
+<%= javascript_include_tag "appletListeners.js" %>
+<%= javascript_include_tag "subnav.js" %>
+<%= stylesheet_link_tag "tickets", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "subnav", media: "all", "data-turbolinks-track" => true %>
+
+
+<script type="text/javascript">
+  var start = function(){
+    window.setTimeout(function(){
+      updateStock();
+      initializeReservedSeats();}, 2000);
+  };
+  
+  $(document).ready(start);
+  $(document).on('page:load', start);
+
+</script>
+
+<div class="well well-sm">
+  <div class="venue-background">
+    <div class="concerthall" id="floorplan">
+      <div class="subnav">
+        <ul class="pagination" style="position:fixed;margin-left:30px;">
+          <li class="selectorLI active"><a type="button" class="selector" id="season">Remaining Seats</a></li>
+          <li style="padding-right:15px"></li>
+          <li><input class="btn btn-default" id="purchaseBtn" type="button" value="Confirm" onclick="return nextTheater()" disabled=""/></li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-12" id="concerthall-seats" style="visibility:visible">
+          <% @seat_list_concerthall.each do |seat| %>
+            <button id="<%=seat.id%>" type="button" class="seat emptySeat" style="top:<%= seat.pixel_x  %>px;left:<%=seat.pixel_y %>px;"></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" id="playhouse-seats" style="visibility:hidden">
+          <% @seat_list_playhouse.each do |seat| %>
+            <button id="<%=seat.id%>" type="button" class="seat emptySeat" style="top:<%= seat.pixel_x  %>px;left:<%=seat.pixel_y %>px;"></button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

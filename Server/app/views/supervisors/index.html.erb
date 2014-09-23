@@ -1,0 +1,33 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-1">
+              Supervisors
+            </div>
+            <div class="col-md-offset-8">
+              <%= link_to "Create Supervisor", new_supervisor_path(organization_id: @organization.id), :class=>"btn btn-default" %>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <th>Name</th>
+            <th>Code</th>
+          </thead>
+          <tbody>
+            <% @supervisor_list.each do |supervisor| %>
+            <tr>
+              <td><%= supervisor.name %></td>
+              <td><%= supervisor.code %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= link_to "Back To Organization Page", edit_organization_path(id: @organization.id), :class=>"btn btn-default" %>
+    </div>
+  </div>
+</div>  

@@ -1,0 +1,18 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Productions
+        </div>
+        <div class="panel-body">        
+          <ul class="list-group">
+            <% @season.productions.all.each do |production| %>
+              <%= link_to production.title, production_path(production), :class => "list-group-item" %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

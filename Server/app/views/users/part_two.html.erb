@@ -1,0 +1,50 @@
+<%= form_for :user, url: users_path, action: "create" do |f| %>
+<div class="row">
+  <div class="col-md-5">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+         Payment Information
+      </div>
+      <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="10%">Name:</td>
+            <td><%=f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td>Credit Card:</td>
+            <td><%=f.text_field :encrypted_credit_card %></td>
+          </tr>
+          <tr>
+            <td><b>Address:</b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Street:</td>
+            <td><%=f.text_field :street_address, style: "width:100%" %></td>
+          </tr>
+          <tr>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td width="8%"></td>
+                  <td width="40%">City: <%=f.text_field :city %></td>
+                  <td>State: <%=f.text_field :state, maxlength:2 %></td>
+                </tr>
+              </tbody>
+            </table>
+          </tr>
+          <tr>
+            <td><%= f.submit %> </td>
+          </tr>
+        </tbody>
+      </table>
+      <% @user_params.each do |k,v| %>
+        <%=hidden_field_tag k, v %>
+      <% end %>
+  </div>
+</div>
+  
+<% end %>

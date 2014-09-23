@@ -1,0 +1,69 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Please Confirm your payment information
+        </div>
+        <table class="table">
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <td width="20%"><b>Name:</td>
+              <td><%= @transaction.customer_name %></td>
+            </tr>
+            <tr>
+              <% unless @transaction.pay_at_door %>
+                <td><b>Credit Card:</td>
+                <td><%= @transaction.last_four %></td>
+              <% else %>
+              <td><b>Payment:</b></td>
+              <td>Cash or Check</td>
+              <% end %>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>  
+    </div>
+    
+    <div class="col-md-5">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Chosen Seats for <%= @transaction.production.title %>
+        </div>
+        <table class="table">
+          <thead>
+            <th>Seat</th>
+            <th>Type</th>
+            <th>Price</th>
+          </thead>
+          <tbody>
+            <% @transaction.tickets.each do |ticket| %>
+              <tr>
+                <td><%= ticket.seat.row %>-<%=ticket.seat.seat_number %></td>
+                <td><%= ticket.seat_type %></td>
+                <td>$<%= formatted_price(ticket.price) %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td><b>Total:</b></td>
+              <td>$<%=formatted_price(@transaction.total_cost)%></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <% unless @current_user.teller?(@transaction.organization) %>
+        <%= link_to "Reserve", transaction_confirm_path(@transaction), class: "btn btn-primary", method: "put" %>
+      <% else %>
+        <%= link_to "Confirm", transaction_confirm_path(@transaction, paid_at_door: true), class: "btn btn-primary", method: "put" %>
+      <% end %>
+    </div>
+  </div>
+</div>

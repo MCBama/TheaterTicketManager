@@ -1,0 +1,50 @@
+
+<div class="row">
+  <div class="col-md-offset-1 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-6">
+            Season Ticket Holders
+          </div>
+          <% if @current_user.administrator?(@organization) %>
+            <div class="col-md-6 heading-btn" >
+              <%= link_to "Download List", "/season_tickets.csv?organization_id=#{@organization.id}", class: "btn btn-default" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <th width="30%">Name</th>
+          <th width="20%" style="text-align:center">Num. Tickets</th>
+          <th width="40%" style="text-align:center">Ticket Holder Since</th>
+          <th width="10%">Options</th>
+        </thead>
+        <tbody>
+          <% @season_ticket_list.each do |ticket| %>
+          <tr>
+            <td><%= ticket.name %></td>
+            <td style="text-align:center"><%= ticket.seats.count / 2 %></td>
+            <td style="text-align:center"><%= datepicker_format(Date.parse(ticket.created_at.to_s)) %></td>
+            <td style="text-align:center">
+              <%= link_to "", season_ticket_path(ticket, organization_id: @organization.id), method:"delete", class: "btn glyphicon glyphicon-trash", data: {confirm: "Are you sure you wish to remove this person's season ticket?"} %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-offset-1 col-md-6">
+    Import List
+    <%= form_tag import_season_tickets_path(@organization), multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= hidden_field_tag "organization_id", @organization.id %>
+      <%= submit_tag "Import"  %>
+    <% end %>
+  </div>
+</div>

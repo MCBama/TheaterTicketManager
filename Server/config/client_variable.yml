@@ -1,0 +1,5 @@
+development:
+  app_name: TicketManager
+
+production:
+  app_name: TicketManager

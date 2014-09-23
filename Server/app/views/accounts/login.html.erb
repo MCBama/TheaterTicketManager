@@ -1,0 +1,55 @@
+<% @page_title = "User Login" %>
+
+  
+<div class = "row">
+  <div class="col-md-4">
+    <div class = "Sign_Form well">
+      <div class = "row">
+          <h1>Sign Up</h1>
+          <%= form_for(:user, :url => {controller: "users", action: "create"}) do |f| %>
+            <div class = "row">
+              <div class = "col-md-2 col-md-offset-1">
+                Username: 
+              </div>  
+              <div class = "col-md-9">
+                <%= f.text_field :username %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-md-offset-1 col-md-2">
+                Email: 
+              </div>  
+              <div class = "col-md-9">
+                <%= f.text_field :email %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-md-3", style="text-align:right;padding-right:0px">
+                Password: 
+              </div>  
+              <div class = "col-md-9">
+                <%= f.password_field :password %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-md-3", style="text-align:right;padding-right:0px">
+                Confirmation:
+              </div>  
+              <div class = "col-md-9">
+                <%= f.password_field :password_confirmation %>
+              </div>
+            </div>
+            <%= f.submit :Signup %>
+          <% end %>
+          <% if @user.errors.any? %>
+            <ul class="Signup_Errors">
+            <% for message_error in @user.errors.full_messages %>
+              <li><%= message_error %></li>
+            <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

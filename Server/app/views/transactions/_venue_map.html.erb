@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  var start = function(){
+    window.setTimeout(function(){
+      updateStock();
+      setTheater();
+      initializeReservedSeats();
+      if(gon.seat_selection_enabled == false){
+        seatSelectionEnabled = false;
+      } else {
+         seatSelectionEnabled = true; 
+      }
+      var div = document.getElementsByClassName("venue-background")
+      div = div[0]
+      $("div.venue-background").scrollLeft(div.scrollLeftMax/2);
+    }, 2000);
+      
+  };
+ 
+  $(document).ready(start);
+  $(document).on('page:load', start);
+
+</script>
+
+<div class="well well-sm">
+  <div class="venue-background" >
+    <div id="floorplan" class="floorplan">
+      <% unless @not_transaction %>
+        <div class="subnav">
+          <ul class="pagination" style="position:fixed;margin-left:30px;">
+            <li class="selectorLI active"><a type="button" class="selector" id="adult">Adult</a></li>
+            <li class="selectorLI inactive"><a type="button" class="selector" id="child">Child</a></li>
+            <li class="selectorLI inactive"><a type="button" class="selector" id="military">Military</a></li>
+            <li style="padding-right:15px"></li>
+            <li><input class="btn btn-default" id="purchaseBtn" type="button" value="Confirm" onclick="return purchaseBtn_onclick('<%= @url %>/?')" disabled=""/></li>
+          </ul>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-md-12">
+          <% @seat_list.each do |seat| %>
+            <button id="<%=seat.id%>" type="button" class="seat emptySeat" style="top:<%= seat.pixel_x  %>px;left:<%=seat.pixel_y %>px;"></button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

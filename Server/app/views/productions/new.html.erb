@@ -1,0 +1,71 @@
+<%= javascript_include_tag "datepicker", "data-turbolinks-track" => true %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('[data-behaviour~=datepicker]').datepicker({
+      autoclose: true,
+      todayHighlight: true
+    });
+  })
+</script>
+
+<%= form_for(:production, :url => {controller: "productions", action: "create"}) do |f| %>
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-1", style="text-align:right;padding-right:0px">
+      Title:
+    </div>
+    <div class="col-md-2", style="text-align:left">
+      <%= f.text_field :title %>
+    </div>
+    <div class="col-md-2">
+      <%=f.submit "Create New", :class=>"btn btn-primary", :style=>"margin-top:-4px" %>
+    </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-1" style="text-align:right;padding-right:0px;">
+        Start date: 
+      </div>
+      <div class="col-md-3">
+        <%= f.text_field :start_date, value: datepicker_format(Date.today), "data-behaviour" => "datepicker" %>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-1" style="text-align:right">
+        Start Time:
+      </div>
+      <div class="col-md-6">
+        <%= select_time(Time.zone.now.at_beginning_of_hour, ampm: true, prefix: :start_time, step: 5) %>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-1" style="text-align:right;padding-right:0px;">
+        Theater:
+      </div>
+      <div class="col-md-3">
+        <%= select_tag(:theater_id, options_for_select(@theater_list)) %>  
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+      <% unless @organization %>
+        <div class="col-md-1" style="text-align:right;padding-right:0px;">
+          Organization:
+        </div>
+        <div class="col-md-2">
+            <%= select_tag(:organization_id, options_for_select(@organization_list)) %>
+        </div>
+      <% else @current_user.organization %>
+        <%= hidden_field_tag "organization_id", @organization.id %>
+      <% end %>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<% end %>
+  

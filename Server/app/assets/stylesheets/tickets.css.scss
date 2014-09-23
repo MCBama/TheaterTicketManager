@@ -1,0 +1,57 @@
+// Place all the styles related to the tickets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.list-group{
+	max-height:155px;
+	overflow:auto;
+}
+
+.concerthall{
+  background: url(image-path("applet/concerthall.png"));
+  background-repeat: no-repeat;
+  background-size: 2000px, 2417px;
+  min-height:2417px;
+  min-width:2000px;
+}
+
+.playhouse{
+  background: url(image-path("applet/playhouse.png"));
+  background-repeat: no-repeat;
+  background-size: 1500px, 990px;
+  min-height:990px;
+  min-width:1500px;
+}
+  
+.venue-background{
+  height:100%;
+  width:100%;
+  overflow-x:scroll;
+}
+
+.seat{
+  height: 19px;
+  width: 19px;
+  position: absolute;
+  border: 0px;
+  
+}
+
+.seat.emptySeat{
+  background: url(image-path('emptySeat.png'));
+}
+.seat.adultSeat{
+  background: url(image-path('adultSeat.png')), url(image-path('emptySeat.png'));
+}
+.seat.childSeat{
+  background: url(image-path('childSeat.png')), url(image-path('emptySeat.png'));
+}
+.seat.militarySeat{
+  background: url(image-path('militarySeat.png')), url(image-path('emptySeat.png'));
+}
+.seat.reservedSeat{
+  background: url(image-path('reservedSeat.png')), url(image-path('emptySeat.png'));
+}
+.seat.seasonSeat{
+  background: url(image-path('seasonSeat.png')), url(image-path('emptySeat.png'));
+}

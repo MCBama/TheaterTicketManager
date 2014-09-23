@@ -1,0 +1,9 @@
+<%= form_for :season do |f| %>
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-md-12">
+        <%= Time.now.next_year.year %>
+      </div>
+    </div>
+  </div>
+<% end %>

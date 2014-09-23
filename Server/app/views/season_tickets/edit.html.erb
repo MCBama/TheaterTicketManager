@@ -1,0 +1,42 @@
+<%= form_for @season_ticket_holder do |f|%>
+<div class="well well-sm">
+  <%= params %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-6">
+              Season Ticket Information For: <%= @season_ticket_holder.name %>
+            </div>
+            <div class="col-md-6 heading-btn">
+              <%= link_to "Edit User's Account", admin_edit_user_path(id: @season_ticket_holder.user.id), class: "btn btn-default" %>
+            </div>
+           </div>
+          </div>
+        <table class="table">
+          <thead>
+            <th width="20%">Production</th>
+            <th width="20%">Date</th>
+            <th width="20%">Performance</th>
+            <th width="20%">Time</th>
+            <th width="20%">Seat ID</th>
+          </thead>
+          <tbody>
+            <% @ticket_list.each_with_index do |ticket| %>
+              <tr>
+                <td><%= ticket.production.title %></td>
+                <td><%= ticket.performance.performance_start_date %></td>
+                <td><%= ticket.performance.name %></td>
+                <td><%= formatted_time(ticket.performance.start_time) %></td>
+                <td><%= ticket.row %>-<%= ticket.seat_number %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= @season_ticket_holder.name %>
+    </div>
+  </div>
+</div>
+<% end %>

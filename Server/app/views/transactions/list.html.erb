@@ -1,0 +1,56 @@
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Transactions
+        </div>
+        <table class="table">
+          <thead>
+            <th width="10%">Ticket Number</th>
+            <th>Name</th>
+            <th width="10%">Num. Tickets</th>
+            <th>Production</th>
+            <th>Purchase Date</th>
+            <th>Price</th>
+            <th>Status</th>
+            <% if @current_user.administrator?(@organization, params[:supervisor_code].to_i) %>
+              <th width="25%" style="text-align:center">Options</th> 
+            <% end %>
+          </thead>
+          <tbody>
+            <% @transaction_list.each do |transaction| %>
+            <tr>
+              <td><%= transaction.id %></td>
+              <td><%= transaction.customer_name %></td>
+              <td><%= transaction.tickets.count %></td>
+              <td><%= transaction.production.title %></td>
+              <td><%= datepicker_format(Date.parse(transaction.created_at.to_s)) %></td>
+              <td>$<%= formatted_price(transaction.total) %></td>
+              <% if transaction.payment_status == false %>
+                <td><%= link_to "Unpaid", update_payment_transaction_path(transaction, organization_id: @organization.id), data: { confirm: "Would you like to set this transaction to paid?" } %></td>
+              <% else %>
+                <td>Paid</td>
+              <% end %>
+              <td>
+                <% if @current_user.administrator?(@organization, params[:supervisor_code].to_i) %>
+                <div class="row" style="padding-left:10px">
+                  <div class="col-md-6" style="text-align:right;padding:0px;">
+                    <%= link_to "Swap Seats", swap_seats_transaction_path(transaction), class:"btn btn-default", style: "width:100%" %>
+                    <%= link_to "Swap Performances", pick_performance_transaction_path(transaction), class:"btn btn-default", style: "width: 100%" %>
+                  </div>
+                  <div class="col-md-3" style="margin-top:3.4%">
+                    <%= link_to "", edit_transaction_path(transaction, organization_id: @organization.id), method: "get", class: "btn glyphicon glyphicon-edit"%>
+                    <%= link_to "", transaction_path(transaction, organization_id: @organization.id), method: "delete", class: "btn glyphicon glyphicon-remove", data: { confirm: "Are you sure you wish to delete this transaction?" } %>
+                  </div>
+                </div>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<%= form_for :production, :url => production_path(@production), :method => "put"  do |f|%>
+<%= hidden_field_tag "production_id", @production.id %>
+<div class="row">
+	<div class="col-md-offset-1 col-md-5">
+		<div class="panel panel-primary">        
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						Production Info
+					</div>
+        </div>
+      </div>
+      <div class = "list-group">
+        <table class="table" style="margin-bottom:0px; vertical-align:center">
+          <thead>
+          </thead>
+					<tbody>
+            <tr><td width="40%"><b>Production Title:</b></td><td><%= f.text_field :title, style:"width:100%" %></td></tr>
+            <tr>
+              <td><b>Production Start Date:</b></td>
+              <td>
+                <% if @production.start_date %>
+                  <%= @production.start_date.strftime("%m/%d/%y") %>
+                <% end %>              
+              </td>
+            </tr>
+            <tr><td><b>Production Theater:</b></td><td><%= @production.theater.name %></td></tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-md-12" style="padding-left:5%;padding-right:5%">
+            <b>Description:</b>
+
+            <tr><td><%= f.text_area :description, style:"width:100%;", rows:10%></td></tr>
+            <% if @current_user.administrator? %>
+            <tr>
+              <td class="col-md-6">
+                <%= f.submit :class=>"btn btn-primary", :style=>"margin-bottom:10px;margin-top:5px" %>
+              </td>
+            </tr>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="col-md-offset-1 col-md-4 ">
+		<div class="panel panel-primary">        
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						Performances
+					</div>
+					<% if @current_user.administrator? || @current_user.administrator?(@production.organization) %>
+						<div class="col-md-6 heading-btn">
+							<%=link_to "Create New Performance", new_performance_path(:organization_id => @production.organization.id, :production_id => @production.id), :class=>"btn btn-default" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<div class = "list-group">
+        <table class="table" style="margin-bottom:0px; vertical-align:center">
+          <thead>
+          </thead>
+					<tbody>
+						<% @performance_list.each do |performance| %>
+            
+							<tr>
+								<td>
+                  <a href=<%= edit_performance_path(performance) %> class="list-group-item" ><b><%=performance.name%></b></a>
+                </td>
+                <td width="15%" style="text-align:right; vertical-align:middle"><%= formatted_time(performance.start_time) %>
+                  <br><%= datepicker_format(performance.performance_start_date) %></td>
+                <% if @current_user.administrator? || @current_user.administrator?(performance.organization) %>  
+                <td width="15%" style="text-align:center; vertical-align:middle">
+                <%= link_to "", edit_performance_path(performance), class: "btn btn glyphicon glyphicon-edit"%>
+                <%= link_to "", performance_path(performance), class: "btn glyphicon glyphicon-trash", style: "color:red", method: :delete, data: { confirm: "Are you sure?" } %>
+                </td>
+                <% end %>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% end %>

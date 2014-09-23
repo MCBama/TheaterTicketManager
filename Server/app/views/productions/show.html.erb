@@ -1,0 +1,43 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="panel panel-primary">        
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						Performances for <%=@production.title%>
+					</div>
+					<% if @current_user.administrator? %>
+						<div class="col-md-6 heading-btn">
+							<%=link_to "Edit Production", edit_production_path(@production), :class=>"btn btn-default" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<div class = "list-group">
+        <table class="table" style="margin-bottom:0px; vertical-align:center">
+          <thead>
+          </thead>
+					<tbody>
+						<% @production.performances.all.each do |performance| %>
+            
+							<tr>
+								<td>
+                  <a href=<%= performance_path(performance, not_transaction: true) %> class="list-group-item" ><b><%=performance.name%></b></a>
+                </td>
+                <td width="5%" style="text-align:right; vertical-align:middle"><%=formatted_time(performance.start_time) %><br><%= datepicker_format(performance.performance_start_date) %></td>
+                
+                <td width="10%" style="text-align:center; vertical-align:middle">
+                  <%= link_to "", pick_seat_numbers_transactions_path(performance_id: performance.id), class: "btn glyphicon glyphicon-shopping-cart", disabled: performance.upcoming? ? false : true %>
+                  <% if @current_user.administrator? || @current_user.administrator?(performance.organization)%>  
+                    <%= link_to "", edit_performance_path(performance), class: "btn glyphicon glyphicon-edit"%>
+                    <%= link_to "", performance_path(performance), class: "btn glyphicon glyphicon-trash", style:"color:red", method: :delete, data: { confirm: "Are you sure?" } %>
+                  <% end %>
+                </td>                
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

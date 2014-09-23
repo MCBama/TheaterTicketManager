@@ -1,0 +1,11 @@
+Performance Index
+<br>
+
+
+<%= link_to "Create New Performance", new_performance_path, class: "btn btn-primary" %>
+
+<div class="well well-sm">
+	<% @performance_list.each do |performance| %>
+		<%= link_to performance.name, performance_path(performance) %> <%= performance.performance_start_date %> <%=performance.performance_end_date %><br>
+	<% end -%>
+</div>
